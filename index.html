@@ -53,10 +53,19 @@ section{padding:90px 7vw 40px;max-width:1200px;margin:0 auto}
 .card img{aspect-ratio:4/5;object-fit:cover}
 .card figcaption{margin-top:8px;display:flex;justify-content:space-between;font-size:14px;color:var(--soft)}
 .card:hover .fr{outline-color:var(--red)}
-dialog{border:0;padding:14px;background:var(--paper);color:var(--ink);max-width:min(92vw,820px);width:100%}
+dialog{border:0;padding:18px;background:var(--paper);color:var(--ink);max-width:min(92vw,820px);width:100%}
 dialog::backdrop{background:rgba(10,10,10,.75)}
-dialog .big{border:1px solid var(--line)}
-dialog .big svg,dialog .big img{display:block;width:100%;max-height:72vh;object-fit:contain}
+dialog .big{border:0;background:var(--paper2);padding:clamp(22px,5vw,48px) clamp(18px,5vw,56px) clamp(30px,6vw,60px);display:grid;place-items:center}
+dialog .big svg,dialog .big img{display:block;width:auto;height:auto;max-width:100%;max-height:calc(100vh - 260px);margin:0 auto;box-shadow:0 2px 4px rgba(0,0,0,.12),0 18px 28px -8px rgba(0,0,0,.35),0 34px 50px -22px rgba(0,0,0,.3);animation:pop .45s cubic-bezier(.2,.7,.2,1)}
+dialog .stage{position:relative}
+dialog .big{overflow:hidden;touch-action:none}
+dialog .big img,dialog .big svg{user-select:none;-webkit-user-drag:none;cursor:zoom-in;transform-origin:center}
+dialog .zm{position:absolute;top:10px;right:10px;display:flex;flex-direction:column;gap:6px;z-index:2}
+dialog .zm button{width:40px;height:40px;border:1px solid var(--line);background:rgba(255,255,255,.92);color:var(--ink);font:inherit;font-size:18px;line-height:1;cursor:pointer;box-shadow:0 2px 8px rgba(0,0,0,.15)}
+dialog .zm button:hover{border-color:var(--red);color:var(--red)}
+dialog .zm #zrs{font-size:13px}
+@keyframes pop{from{opacity:0;transform:translateY(14px) scale(.97)}to{opacity:1;transform:none}}
+@media (prefers-reduced-motion:reduce){dialog .big img,dialog .big svg{animation:none}}
 dialog p{margin:10px 0 0}
 /* commission */
 .status{display:inline-flex;align-items:center;gap:10px;border:1px solid var(--cel);padding:4px 16px;margin-bottom:28px}
@@ -126,10 +135,13 @@ footer{position:relative;background:#fafbfc;color:var(--soft);padding:0;margin-t
 @media (max-width:700px){.grid.gc{grid-template-columns:1fr;gap:10px}.gc .cv,.gc .cr{grid-column:1}}
 .intro{display:grid;grid-template-columns:1fr 1fr;gap:40px 6vw;align-items:start;padding:50px 7vw 10px;max-width:1200px;margin:0 auto;font-family:"Jost","Futura","Century Gothic",sans-serif;font-weight:300}
 .intro .who{margin:0;font-size:30px;font-weight:400;line-height:1.2}
-.intro .bio{margin:0;font-size:clamp(17px,1.7vw,22px);line-height:1.5}
+.intro .bio{margin:0;font-family:var(--sans);font-weight:300;font-size:clamp(17px,1.7vw,22px);line-height:1.5}
 @media (max-width:700px){.intro{grid-template-columns:1fr;gap:14px;padding-top:30px}}
 body{display:flex;flex-direction:column;min-height:100vh}main{flex:1 0 auto}
 .copy{margin:0;padding:22px 5vw 26px;text-align:center;font-size:14px;color:var(--soft);font-family:var(--sans);font-weight:300;background:var(--paper)}
+img,svg{-webkit-user-drag:none;user-select:none;-webkit-user-select:none;-webkit-touch-callout:none}
+.hero img,.card img,.big img{pointer-events:none}
+dialog .big{cursor:zoom-in}
 [hidden]{display:none!important}
 nav a[aria-current] b{color:var(--red)}
 @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
@@ -202,7 +214,7 @@ nav a[aria-current] b{color:var(--red)}
 <footer><div class="ft"><p>Thanks!</p><span class="seal" role="img" aria-label="Logo Ent."></span><svg class="dog" viewBox="0 0 110 118" aria-hidden="true"><path class="tail" fill="none" stroke="#f2d3a0" stroke-width="5" stroke-linecap="round" d="M64 111C80 112 94 108 104 96"/><path fill="#f2d3a0" d="M30 40C48 42 64 58 72 82c4 12 3 24-2 30H28v-7h8C34 88 30 72 25 56z"/><g class="hd"><ellipse cx="27" cy="29" rx="15" ry="14" fill="#f2d3a0"/><ellipse cx="13" cy="34" rx="11" ry="7" fill="#f2d3a0"/><path class="ear" fill="#c98a3a" d="M32 18c9-4 17 4 16 16-1 8-5 12-9 10-6-3-10-18-7-26z"/><circle cx="4" cy="31" r="3.4" fill="#1d1c1a"/><circle class="eye" cx="19" cy="26" r="2" fill="#1d1c1a"/></g></svg></div></footer>
 <p class="copy">All rights reserved. © copyright 2026 Ent.</p>
 
-<dialog id="dlg" aria-label="Pratinjau karya"><div class="big" id="big"></div><div class="nv"><button class="btn" id="prv" type="button" aria-label="Karya sebelumnya">←</button><button class="btn" id="nxt" type="button" aria-label="Karya berikutnya">→</button><span id="cap" aria-live="polite"></span><button class="btn" id="cls" type="button">Tutup</button></div></dialog>
+<dialog id="dlg" aria-label="Pratinjau karya"><div class="stage"><div class="big" id="big"></div><div class="zm" role="group" aria-label="Zoom"><button type="button" id="zin" aria-label="Perbesar">+</button><button type="button" id="zout" aria-label="Perkecil">−</button><button type="button" id="zrs" aria-label="Ukuran asli">1:1</button></div></div><div class="nv"><button class="btn" id="prv" type="button" aria-label="Karya sebelumnya">←</button><button class="btn" id="nxt" type="button" aria-label="Karya berikutnya">→</button><span id="cap" aria-live="polite"></span><button class="btn" id="cls" type="button">Close</button></div></dialog>
 
 <script>
 // Ganti src dengan URL gambar karya kamu (atau data URI). Jika kosong, tampil placeholder tinta.
@@ -220,12 +232,33 @@ works.forEach(function(w,i){var b=document.createElement("button");b.className="
  b.innerHTML='<div class="fr">'+media(w,i)+'</div>';b.title=w.t;b.setAttribute("aria-label",w.t);
  var n=items.push({h:function(){return media(w,i)},t:w.t})-1;b.onclick=function(){show(n);dlg.showModal()};
  document.getElementById("grid").appendChild(b)});
-var cur=0;function show(n){cur=(n+items.length)%items.length;document.getElementById("big").innerHTML=items[cur].h();document.getElementById("cap").textContent=items[cur].t}
+var cur=0;function show(n){cur=(n+items.length)%items.length;z=1;tx=ty=0;document.getElementById("big").innerHTML=items[cur].h();document.getElementById("cap").textContent=items[cur].t}
 document.querySelectorAll(".cmb").forEach(function(b){var i=b.querySelector("img");var n=items.push({h:function(){return '<img src="'+i.src+'" alt="'+i.alt+'">'},t:i.alt})-1;b.onclick=function(){show(n);dlg.showModal()}});
 document.getElementById("prv").onclick=function(){show(cur-1)};document.getElementById("nxt").onclick=function(){show(cur+1)};
 dlg.addEventListener("keydown",function(e){if(e.key==="ArrowLeft")show(cur-1);if(e.key==="ArrowRight")show(cur+1)});
-var tx=0;dlg.addEventListener("touchstart",function(e){tx=e.touches[0].clientX},{passive:true});dlg.addEventListener("touchend",function(e){var d=e.changedTouches[0].clientX-tx;if(Math.abs(d)>50)show(cur+(d<0?1:-1))});
+
 document.getElementById("cls").onclick=function(){dlg.close()};
+var z=1,tx=0,ty=0,big=document.getElementById("big"),ptr={},pd=0,sw=null;
+function el(){return big.firstElementChild}
+function apply(){var m=el();if(!m)return;m.style.transform=(z===1&&!tx&&!ty)?"":"translate("+tx+"px,"+ty+"px) scale("+z+")";big.style.cursor=z>1?"grab":"zoom-in"}
+function clampPan(){var m=el();if(!m)return;var w=m.offsetWidth*z/2,h=m.offsetHeight*z/2;tx=Math.max(-w,Math.min(w,tx));ty=Math.max(-h,Math.min(h,ty))}
+function zoomTo(nz,cx,cy){var m=el();if(!m)return;nz=Math.max(1,Math.min(5,nz));var r=m.getBoundingClientRect(),c0x=r.left+r.width/2-tx,c0y=r.top+r.height/2-ty;
+ if(cx==null){cx=c0x;cy=c0y}var k=nz/z;tx=(cx-c0x)-((cx-c0x)-tx)*k;ty=(cy-c0y)-((cy-c0y)-ty)*k;z=nz;if(z===1){tx=ty=0}clampPan();apply()}
+document.getElementById("zin").onclick=function(){zoomTo(z*1.4)};document.getElementById("zout").onclick=function(){zoomTo(z/1.4)};document.getElementById("zrs").onclick=function(){zoomTo(1)};
+big.addEventListener("wheel",function(e){e.preventDefault();zoomTo(z*Math.exp(-e.deltaY*(e.ctrlKey?.01:.0025)),e.clientX,e.clientY)},{passive:false});
+big.addEventListener("dblclick",function(e){zoomTo(z>1?1:2.5,e.clientX,e.clientY)});
+function dist(){var a=Object.keys(ptr).map(function(k){return ptr[k]});return Math.hypot(a[0].x-a[1].x,a[0].y-a[1].y)}
+big.addEventListener("pointerdown",function(e){big.setPointerCapture(e.pointerId);ptr[e.pointerId]={x:e.clientX,y:e.clientY};if(Object.keys(ptr).length===2){pd=dist();sw=null}else sw={x:e.clientX,y:e.clientY}});
+big.addEventListener("pointermove",function(e){var p=ptr[e.pointerId];if(!p)return;var n=Object.keys(ptr).length;
+ if(n===2){var nd;p.x=e.clientX;p.y=e.clientY;nd=dist();if(pd){var a=Object.keys(ptr).map(function(k){return ptr[k]});zoomTo(z*nd/pd,(a[0].x+a[1].x)/2,(a[0].y+a[1].y)/2)}pd=nd}
+ else if(z>1){tx+=e.clientX-p.x;ty+=e.clientY-p.y;p.x=e.clientX;p.y=e.clientY;clampPan();apply()}
+ else{p.x=e.clientX;p.y=e.clientY}});
+function up(e){var p=ptr[e.pointerId];delete ptr[e.pointerId];if(Object.keys(ptr).length<2)pd=0;
+ if(sw&&p&&z===1&&e.type==="pointerup"){var d=e.clientX-sw.x,dy=e.clientY-sw.y;if(Math.abs(d)>60&&Math.abs(d)>Math.abs(dy)*1.5)show(cur+(d<0?1:-1))}sw=null}
+big.addEventListener("pointerup",up);big.addEventListener("pointercancel",up);
+dlg.addEventListener("keydown",function(e){if(e.key==="+"||e.key==="=")zoomTo(z*1.4);if(e.key==="-")zoomTo(z/1.4);if(e.key==="0")zoomTo(1)});
+dlg.addEventListener("close",function(){z=1;tx=ty=0;ptr={}});
+
 (function(){var cards=[].slice.call(document.querySelectorAll("#grid .card,.gc .card"));
 var reduce=matchMedia("(prefers-reduced-motion:reduce)").matches;
 var io=new IntersectionObserver(function(es){es.forEach(function(e){var c=e.target,r=e.boundingClientRect;
@@ -251,6 +284,10 @@ function route(){var h=location.hash.slice(1),on=secs.some(function(x){return x.
  links.forEach(function(a){if(a.getAttribute("href")==="#"+h)a.setAttribute("aria-current","page");else a.removeAttribute("aria-current")});
  scrollTo({top:0,behavior:"instant"})}
 addEventListener("hashchange",route);route()})();
+
+document.addEventListener("contextmenu",function(e){if(e.target.closest&&e.target.closest("img,svg,.card,.big,.hero"))e.preventDefault()});
+document.addEventListener("dragstart",function(e){if(e.target.tagName==="IMG")e.preventDefault()});
+document.addEventListener("copy",function(e){var t=window.getSelection&&String(window.getSelection());if(!t&&e.target.closest&&e.target.closest(".card,.big,.hero"))e.preventDefault()});
 </script>
 </body>
 </html>
